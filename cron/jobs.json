@@ -104,13 +104,13 @@
         "to": "oc_1ae5f7bbe9f49bbe14691f0678fe1ed4"
       },
       "state": {
-        "nextRunAtMs": 1773180000000,
-        "lastRunAtMs": null,
-        "lastStatus": null,
+        "nextRunAtMs": 1773266400000,
+        "lastRunAtMs": 1773180000007,
+        "lastStatus": "ok",
         "lastError": null
       },
       "createdAtMs": 1773147221126,
-      "updatedAtMs": 1773147221126,
+      "updatedAtMs": 1773180009471,
       "deleteAfterRun": false
     },
     {
