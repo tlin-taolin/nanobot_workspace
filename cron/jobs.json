@@ -1,0 +1,117 @@
+{
+  "version": 1,
+  "jobs": [
+    {
+      "id": "bd998347",
+      "name": "A股分析 (早盘)",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "atMs": null,
+        "everyMs": null,
+        "expr": "30 9 * * 1-5",
+        "tz": "Asia/Shanghai"
+      },
+      "payload": {
+        "kind": "agent_turn",
+        "message": "使用 astock-analysis 技能分析自选股：512100,518880,159980,159530,588200,588380,513310,588000。分析完成后将「⚡ 核心结论」和「🎯 操作清单」部分发送到飞书",
+        "deliver": true,
+        "channel": "feishu",
+        "to": "oc_1ae5f7bbe9f49bbe14691f0678fe1ed4"
+      },
+      "state": {
+        "nextRunAtMs": 1773192600000,
+        "lastRunAtMs": 1773106200009,
+        "lastStatus": "ok",
+        "lastError": null
+      },
+      "createdAtMs": 1772995324540,
+      "updatedAtMs": 1773106222297,
+      "deleteAfterRun": false
+    },
+    {
+      "id": "179809b1",
+      "name": "执行每日总结脚本: /Users/tlin/Dropbox/",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "atMs": null,
+        "everyMs": null,
+        "expr": "30 11 * * *",
+        "tz": "Asia/Shanghai"
+      },
+      "payload": {
+        "kind": "agent_turn",
+        "message": "执行每日总结脚本: /Users/tlin/Dropbox/mytools/myskills/scripts/run_daily_summary.sh",
+        "deliver": false,
+        "channel": "feishu",
+        "to": "oc_26cc7336f575ca28041c4d3850fa7c8b"
+      },
+      "state": {
+        "nextRunAtMs": 1773199800000,
+        "lastRunAtMs": 1773113400012,
+        "lastStatus": "ok",
+        "lastError": null
+      },
+      "createdAtMs": 1772996622499,
+      "updatedAtMs": 1773113573697,
+      "deleteAfterRun": false
+    },
+    {
+      "id": "69b335e3",
+      "name": "A股分析 (午盘)",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "atMs": null,
+        "everyMs": null,
+        "expr": "30 14 * * 1-5",
+        "tz": "Asia/Shanghai"
+      },
+      "payload": {
+        "kind": "agent_turn",
+        "message": "使用 astock-analysis 技能分析自选股：512100,518880,159980,159530,588200,588380,513310,588000。分析完成后将「⚡ 核心结论」和「🎯 操作清单」部分发送到飞书",
+        "deliver": true,
+        "channel": "feishu",
+        "to": "oc_1ae5f7bbe9f49bbe14691f0678fe1ed4"
+      },
+      "state": {
+        "nextRunAtMs": 1773210600000,
+        "lastRunAtMs": null,
+        "lastStatus": null,
+        "lastError": null
+      },
+      "createdAtMs": 1773137352467,
+      "updatedAtMs": 1773137352467,
+      "deleteAfterRun": false
+    },
+    {
+      "id": "2be0783e",
+      "name": "执行 ~/.nanobot/scripts/auto_git",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "atMs": null,
+        "everyMs": null,
+        "expr": "0 6 * * *",
+        "tz": "Asia/Shanghai"
+      },
+      "payload": {
+        "kind": "agent_turn",
+        "message": "执行 ~/.nanobot/scripts/auto_git_commit.sh 脚本",
+        "deliver": true,
+        "channel": "feishu",
+        "to": "oc_1ae5f7bbe9f49bbe14691f0678fe1ed4"
+      },
+      "state": {
+        "nextRunAtMs": 1773180000000,
+        "lastRunAtMs": null,
+        "lastStatus": null,
+        "lastError": null
+      },
+      "createdAtMs": 1773147221126,
+      "updatedAtMs": 1773147221126,
+      "deleteAfterRun": false
+    }
+  ]
+}
