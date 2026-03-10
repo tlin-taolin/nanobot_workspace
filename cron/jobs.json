@@ -112,6 +112,34 @@
       "createdAtMs": 1773147221126,
       "updatedAtMs": 1773147221126,
       "deleteAfterRun": false
+    },
+    {
+      "id": "ac39ac3c",
+      "name": "Obsidian 自动提交",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "atMs": null,
+        "everyMs": null,
+        "expr": "30 6 * * *",
+        "tz": null
+      },
+      "payload": {
+        "kind": "agent_turn",
+        "message": "Obsidian 自动提交",
+        "deliver": true,
+        "channel": "feishu",
+        "to": "oc_1ae5f7bbe9f49bbe14691f0678fe1ed4"
+      },
+      "state": {
+        "nextRunAtMs": 1773181800000,
+        "lastRunAtMs": null,
+        "lastStatus": null,
+        "lastError": null
+      },
+      "createdAtMs": 1773159141489,
+      "updatedAtMs": 1773159141489,
+      "deleteAfterRun": false
     }
   ]
 }
