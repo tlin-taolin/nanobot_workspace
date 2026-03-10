@@ -1,1 +1,6 @@
 config.json
+workspace/.clawhub
+workspace/sessions
+workspace/logs
+*.log
+.env
