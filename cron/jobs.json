@@ -2,92 +2,64 @@
   "version": 1,
   "jobs": [
     {
-      "id": "bd998347",
-      "name": "A股分析 (早盘)",
+      "id": "029c3b26",
+      "name": "cd /Users/tlin/.nanobot/worksp",
       "enabled": true,
       "schedule": {
         "kind": "cron",
         "atMs": null,
         "everyMs": null,
-        "expr": "30 9 * * 1-5",
+        "expr": "*/5 9-11 * * 1-5",
         "tz": "Asia/Shanghai"
       },
       "payload": {
         "kind": "agent_turn",
-        "message": "使用 astock-analysis 技能分析自选股：518880,512100,588380,588200,512400,513120,588000,002202,588170,513130。分析完成后将「⚡ 核心结论」和「🎯 操作清单」部分发送到飞书",
+        "message": "cd /Users/tlin/.nanobot/workspace/skills/astock-analysis/scripts && /opt/homebrew/anaconda3/bin/python main.py --monitor-once",
         "deliver": true,
         "channel": "feishu",
         "to": "oc_1ae5f7bbe9f49bbe14691f0678fe1ed4"
       },
       "state": {
-        "nextRunAtMs": 1773192600000,
-        "lastRunAtMs": 1773106200009,
-        "lastStatus": "ok",
-        "lastError": null
-      },
-      "createdAtMs": 1772995324540,
-      "updatedAtMs": 1773106222297,
-      "deleteAfterRun": false
-    },
-    {
-      "id": "179809b1",
-      "name": "执行每日总结脚本: /Users/tlin/Dropbox/",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "atMs": null,
-        "everyMs": null,
-        "expr": "30 11 * * *",
-        "tz": "Asia/Shanghai"
-      },
-      "payload": {
-        "kind": "agent_turn",
-        "message": "执行每日总结脚本: /Users/tlin/Dropbox/mytools/myskills/scripts/run_daily_summary.sh",
-        "deliver": false,
-        "channel": "feishu",
-        "to": "oc_26cc7336f575ca28041c4d3850fa7c8b"
-      },
-      "state": {
-        "nextRunAtMs": 1773199800000,
-        "lastRunAtMs": 1773113400012,
-        "lastStatus": "ok",
-        "lastError": null
-      },
-      "createdAtMs": 1772996622499,
-      "updatedAtMs": 1773113573697,
-      "deleteAfterRun": false
-    },
-    {
-      "id": "69b335e3",
-      "name": "A股分析 (午盘)",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "atMs": null,
-        "everyMs": null,
-        "expr": "30 14 * * 1-5",
-        "tz": "Asia/Shanghai"
-      },
-      "payload": {
-        "kind": "agent_turn",
-        "message": "使用 astock-analysis 技能分析自选股：518880,512100,588380,588200,512400,513120,588000,002202,588170,513130。分析完成后将「⚡ 核心结论」和「🎯 操作清单」部分发送到飞书",
-        "deliver": true,
-        "channel": "feishu",
-        "to": "oc_1ae5f7bbe9f49bbe14691f0678fe1ed4"
-      },
-      "state": {
-        "nextRunAtMs": 1773210600000,
+        "nextRunAtMs": 1773277200000,
         "lastRunAtMs": null,
         "lastStatus": null,
         "lastError": null
       },
-      "createdAtMs": 1773137352467,
-      "updatedAtMs": 1773137352467,
+      "createdAtMs": 1773250248953,
+      "updatedAtMs": 1773250248953,
       "deleteAfterRun": false
     },
     {
-      "id": "2be0783e",
-      "name": "执行 ~/.nanobot/scripts/auto_git",
+      "id": "9d59129e",
+      "name": "cd /Users/tlin/.nanobot/worksp",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "atMs": null,
+        "everyMs": null,
+        "expr": "*/5 13-15 * * 1-5",
+        "tz": "Asia/Shanghai"
+      },
+      "payload": {
+        "kind": "agent_turn",
+        "message": "cd /Users/tlin/.nanobot/workspace/skills/astock-analysis/scripts && /opt/homebrew/anaconda3/bin/python main.py --monitor-once",
+        "deliver": true,
+        "channel": "feishu",
+        "to": "oc_1ae5f7bbe9f49bbe14691f0678fe1ed4"
+      },
+      "state": {
+        "nextRunAtMs": 1773291600000,
+        "lastRunAtMs": null,
+        "lastStatus": null,
+        "lastError": null
+      },
+      "createdAtMs": 1773250248955,
+      "updatedAtMs": 1773250248955,
+      "deleteAfterRun": false
+    },
+    {
+      "id": "7145519a",
+      "name": "~/.nanobot/scripts/nanobot_git",
       "enabled": true,
       "schedule": {
         "kind": "cron",
@@ -98,47 +70,131 @@
       },
       "payload": {
         "kind": "agent_turn",
-        "message": "执行 ~/.nanobot/scripts/auto_git_commit.sh 脚本",
+        "message": "~/.nanobot/scripts/nanobot_git_commit.sh",
         "deliver": true,
         "channel": "feishu",
         "to": "oc_1ae5f7bbe9f49bbe14691f0678fe1ed4"
       },
       "state": {
         "nextRunAtMs": 1773266400000,
-        "lastRunAtMs": 1773180000007,
-        "lastStatus": "ok",
+        "lastRunAtMs": null,
+        "lastStatus": null,
         "lastError": null
       },
-      "createdAtMs": 1773147221126,
-      "updatedAtMs": 1773180009471,
+      "createdAtMs": 1773250581778,
+      "updatedAtMs": 1773250581778,
       "deleteAfterRun": false
     },
     {
-      "id": "ac39ac3c",
-      "name": "Obsidian 自动提交",
+      "id": "5b92d81a",
+      "name": "cd ~/obsidian_sync && git add ",
       "enabled": true,
       "schedule": {
         "kind": "cron",
         "atMs": null,
         "everyMs": null,
-        "expr": "30 6 * * *",
-        "tz": null
+        "expr": "0 6 * * *",
+        "tz": "Asia/Shanghai"
       },
       "payload": {
         "kind": "agent_turn",
-        "message": "Obsidian 自动提交",
+        "message": "cd ~/obsidian_sync && git add -A && git commit -m \"$(date '+\\%Y-\\%m-\\%d \\%H:\\%M') auto-sync\" && git push",
         "deliver": true,
         "channel": "feishu",
         "to": "oc_1ae5f7bbe9f49bbe14691f0678fe1ed4"
       },
       "state": {
-        "nextRunAtMs": 1773181800000,
+        "nextRunAtMs": 1773266400000,
         "lastRunAtMs": null,
         "lastStatus": null,
         "lastError": null
       },
-      "createdAtMs": 1773159141489,
-      "updatedAtMs": 1773159141489,
+      "createdAtMs": 1773250581781,
+      "updatedAtMs": 1773250581781,
+      "deleteAfterRun": false
+    },
+    {
+      "id": "9df1412e",
+      "name": "/Users/tlin/Dropbox/mytools/my",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "atMs": null,
+        "everyMs": null,
+        "expr": "30 11 * * *",
+        "tz": "Asia/Shanghai"
+      },
+      "payload": {
+        "kind": "agent_turn",
+        "message": "/Users/tlin/Dropbox/mytools/myskills/scripts/run_daily_summary.sh",
+        "deliver": true,
+        "channel": "feishu",
+        "to": "oc_1ae5f7bbe9f49bbe14691f0678fe1ed4"
+      },
+      "state": {
+        "nextRunAtMs": 1773286200000,
+        "lastRunAtMs": null,
+        "lastStatus": null,
+        "lastError": null
+      },
+      "createdAtMs": 1773250581786,
+      "updatedAtMs": 1773250581786,
+      "deleteAfterRun": false
+    },
+    {
+      "id": "6e99ef87",
+      "name": "cd /Users/tlin/.nanobot/worksp",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "atMs": null,
+        "everyMs": null,
+        "expr": "30 9 * * 1-5",
+        "tz": "Asia/Shanghai"
+      },
+      "payload": {
+        "kind": "agent_turn",
+        "message": "cd /Users/tlin/.nanobot/workspace/skills/astock-analysis/scripts && /opt/homebrew/anaconda3/bin/python main.py --stocks 518880,159981,512100,588380,588200,512400,513120,588000,588170,513130,002202,603882,159980,159530,513310",
+        "deliver": true,
+        "channel": "feishu",
+        "to": "oc_1ae5f7bbe9f49bbe14691f0678fe1ed4"
+      },
+      "state": {
+        "nextRunAtMs": 1773279000000,
+        "lastRunAtMs": null,
+        "lastStatus": null,
+        "lastError": null
+      },
+      "createdAtMs": 1773251001402,
+      "updatedAtMs": 1773251001402,
+      "deleteAfterRun": false
+    },
+    {
+      "id": "e08cf2a8",
+      "name": "cd /Users/tlin/.nanobot/worksp",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "atMs": null,
+        "everyMs": null,
+        "expr": "30 14 * * 1-5",
+        "tz": "Asia/Shanghai"
+      },
+      "payload": {
+        "kind": "agent_turn",
+        "message": "cd /Users/tlin/.nanobot/workspace/skills/astock-analysis/scripts && /opt/homebrew/anaconda3/bin/python main.py --stocks 518880,159981,512100,588380,588200,512400,513120,588000,588170,513130,002202,603882,159980,159530,513310",
+        "deliver": true,
+        "channel": "feishu",
+        "to": "oc_1ae5f7bbe9f49bbe14691f0678fe1ed4"
+      },
+      "state": {
+        "nextRunAtMs": 1773297000000,
+        "lastRunAtMs": null,
+        "lastStatus": null,
+        "lastError": null
+      },
+      "createdAtMs": 1773251001403,
+      "updatedAtMs": 1773251001403,
       "deleteAfterRun": false
     }
   ]
