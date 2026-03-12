@@ -10,6 +10,7 @@ This file stores important information that should persist across sessions.
 ## Preferences
 - Uses ClawHub for skill management
 - Interested in self-improvement and productivity skills
+- **搜索优先使用 agent-reach 技能**
 
 ## Python环境配置 (重要！)
 - **大部分 skill 应使用 anaconda Python**: `/opt/homebrew/anaconda3/bin/python3`
@@ -42,8 +43,13 @@ This file stores important information that should persist across sessions.
 | 9:30 | A股早盘分析（9:30·16只） | |
 | 14:30 | A股午盘分析（14:30·16只） | |
 | 11:30 | Obsidian每日总结（11:30） | 脚本: /Users/tlin/Dropbox/mytools/myskills/scripts/run_daily_summary.sh |
-| 9:45-11:30 | A股实时监控（每5分钟） | cron job: cd ~/.nanobot/workspace/skills/astock-analysis && python main.py --monitor-once |
-| 13:00-15:00 | A股实时监控（每5分钟） | cron job: cd ~/.nanobot/workspace/skills/astock-analysis && python main.py --monitor-once |
+
+### 定时任务ID
+- Git自动提交(nanobot): job 7145519a
+- Git自动提交(obsidian): job 5b92d81a
+- A股早盘分析: job 3b40bc8a
+- A股午盘分析: job e08cf2a8
+- Obsidian每日总结: job 9df1412e
 
 ## 实时监控实现方案 (2026-03-12 修订)
 
@@ -72,14 +78,9 @@ This file stores important information that should persist across sessions.
 - **路径**: ~/.nanobot/workspace/skills/astock-analysis/scripts/check_alerts.py
 - 依赖requests模块（anaconda已包含）
 
-### 定时任务ID (2026-03-12)
-- Git自动提交(nanobot): job 7145519a
-- Git自动提交(obsidian): job 5b92d81a
-- A股早盘分析: job 1bb223f5
-- A股午盘分析: job 17d513ad
-- Obsidian每日总结: job 9df1412e
-- A股实时监控(早盘): job 029c3b26 (每5分钟 9:45-11:30)
-- A股实时监控(午盘): job 9d59129e (每5分钟 13:00-15:00)
+## 实时监控状态 (2026-03-12)
+- **已暂停**：用户要求暂停实时监控（9:45-11:30, 13:00-15:00每5分钟的任务）
+- 保留5个基础任务运行
 
 ## 每日分析股票名单（合并后共16只）
 
@@ -135,9 +136,23 @@ This file stores important information that should persist across sessions.
 - 最佳组合: ADER饼干 + 荔园蛋黄酥
 
 ## 2026-03-12 系统维护记录
-- 修复astock-analysis技能运行问题：需从正确目录`~/.nanobot/workspace/skills/astock-analysis/`运行，否则会出现`ModuleNotFoundError: No module named 'src.data_provider'`
-- 发现akshare_fetcher.py存在bug：`unsupported operand type(s) for -: 'float' and 'Config'`，导致ETF实时行情获取失败
-- 恢复7个定时任务（之前消失）
+
+### 修复的问题
+1. **定时任务参数错误**：原使用--analyze-morning/--analyze-afternoon（不存在），改为--stocks指定16只股票
+2. **ReportType导入缺失**：handle_monitor_once函数缺少ReportType导入，已修复
+3. **代码目录不同步**：~/Dropbox/mytools/myskills/和~/.nanobot/workspace/skills/astock-analysis/是不同目录，已同步修复
+4. **Runtime Context显示bug**：修复loop.py中的strip逻辑，正确处理2-3行的情况
+
+### 删除的废弃文件
+- monitor_lite.py（未被使用）
+- astock_monitor.sh（未被使用）
+
+### 发现的问题
+- **ProxyError**：VPN/代理无法连接东方财富数据源(eastmoney.com)，导致定时任务执行失败
+- **非交易时段问题**：monitor-once在非交易时段会卡住（无实时数据+LLM超时）
+
+### 恢复的定时任务
+- 早盘分析(9:30)任务丢失，已重新创建
 
 ## astock-analysis 技能特色 (2026-03-12)
 
@@ -149,7 +164,7 @@ This file stores important information that should persist across sessions.
 - 智能监控告警：7条规则（止盈止损、均线交叉、RSI超买超卖等）
 - 社交媒体舆情：通过 agent-reach 抓取B站、雪球、小红书
 - 自动化持仓管理：本地持仓 + 实时风控
-- **实时监控**: 盘中每5分钟扫描持仓，有触发告警时通过飞书通知
+- **实时监控**: 盘中每5分钟扫描持仓，有触发告警时通过飞书通知（已暂停）
 
 ### 告警规则
 - 成本线：盈利+15% / 亏损-12%
@@ -160,6 +175,28 @@ This file stores important information that should persist across sessions.
 ### 监控实现
 - **skill目录**: ~/.nanobot/workspace/skills/astock-analysis
 - **监控命令**: cd ~/.nanobot/workspace/skills/astock-analysis && python main.py --monitor-once
-- **备用轻量脚本**: ~/Dropbox/mytools/myskills/astock-analysis/scripts/monitor_lite.py
+- **备用轻量脚本**: ~/Dropbox/mytools/myskills/astock-analysis/scripts/monitor_lite.py (已删除)
 - **告警输出**: 检测到告警时打印 `[ALERT]` 标记供agent识别
 - **nanobot路径**: /Users/tlin/Dropbox/mytools/nanobot/.venv/bin/nanobot
+
+### 重要说明
+- 实时监控（monitor-once）只在交易时段(9:45-11:30, 13:00-15:00)运行有意义
+- 非交易时段执行会因无实时数据+LLM调用而超时卡住
+
+## nanobot代码修复 (2026-03-12 16:30)
+
+### Runtime Context显示bug
+- **文件**: `/Users/tlin/Dropbox/mytools/nanobot/nanobot/agent/loop.py`
+- **问题**: LLM返回的Runtime Context没有被正确strip，原代码使用`split("\n", 3)`然后检查`len(lines) >= 3`，但当只有2行时永远不满足条件
+- **修复**: 改为动态检测内容起始位置，跳过所有元数据行
+- **提交**: 已提交到git - "fix: strip Runtime Context from LLM response - handle 2-line case"
+
+### 重启nanobot服务
+- 用户16:34要求重启，已执行pkill + nohup启动
+- 下次cron任务执行时Runtime Context不会再显示
+
+### 午盘分析测试无结果原因
+- 16:26执行的任务是 `--stocks`（分析模式）
+- 16:26已收盘（A股交易时间 9:30-11:30, 13:00-15:00）
+- 脚本检测到非交易时间，返回 "无告警，静默执行"
+- 14:30触发的午盘分析报告已成功生成

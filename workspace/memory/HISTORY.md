@@ -91,3 +91,23 @@
 
 [2026-03-12 01:38] 修复astock-analysis技能import错误：需从~/.nanobot/workspace/skills/astock-analysis/目录运行。发现akshare_fetcher.py存在bug导致ETF实时行情获取失败。恢复7个定时任务(6:00 Git nanobot, 6:30 Git obsidian, 9:30早盘分析, 14:30午盘分析, 11:30 Obsidian总结, 9:45-11:30/13:00-15:00实时监控)。用户询问实时监控与早盘分析逻辑是否相同。
 
+[2026-03-12 09:40] 修复定时任务：发现早盘分析任务(9:30)丢失，重新创建。使用--stocks参数指定16只股票。
+
+[2026-03-12 09:52] 暂停实时监控任务：用户要求暂停cron定时触发的monitor-once任务（9:45-11:30, 13:00-15:00），保留5个基础任务。
+
+[2026-03-12 10:49] 测试monitor-once：在非交易时段(10:50)执行失败，卡在LLM调用。原因是非交易时段无实时数据+LLM超时。
+
+[2026-03-12 11:23] 测试正常分析模式：成功分析2只股票(518880,159981)，耗时42秒，报告已保存。
+
+[2026-03-12 14:37] 午盘分析报告成功生成：analysis_report_143645.md，包含对159981/518880等股票的操作建议。
+
+[2026-03-12 14:40] 排查Runtime Context问题：用户反馈定时任务执行后飞书端返回的是错误而非报告。日志显示是ProxyError网络问题导致失败，不是Runtime Context bug。
+
+[2026-03-12] 删除废弃文件：monitor_lite.py（未被使用）、astock_monitor.sh（未被使用）。
+
+[2026-03-12] 代码目录问题：发现~/Dropbox/mytools/myskills/和~/.nanobot/workspace/skills/astock-analysis/是两个不同目录，代码不同步。已修复ReportType导入问题。
+
+[2026-03-12 14:57-16:30] 问题排查与修复：1) 发现定时任务返回"ProxyError"而非分析报告的bug 2) 修复Runtime Context显示问题（loop.py中的split逻辑错误）3) 用户测试了1分钟后的午盘分析任务
+
+[2026-03-12 16:30] 定时任务查询+Runtime Context bug修复。用户查询当前定时任务(5个)，确认午盘分析测试(16:26)无结果是因为非交易时间执行已收盘(13:00-15:00)，脚本静默退出。Runtime Context修复已提交代码，需重启nanobot服务生效。
+
