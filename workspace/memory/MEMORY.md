@@ -21,11 +21,67 @@ This file stores important information that should persist across sessions.
 - Exploring various ClawHub skills for AI agent capabilities
 - Installed skills stored in ~/.nanobot/workspace/skills/
 
+## nanobot进程状态 (2026-03-12 17:43)
+- **运行中**: PID 33726 (通过 .venv 启动)
+- **之前问题**: 曾有2个进程(PID 23900 anaconda, PID 33726 .venv)，已手动kill旧进程
+
+## Runtime Context Bug修复 (2026-03-12 17:30)
+- **问题**: LLM错误地将system prompt中的`[Runtime Context — metadata only]`标签作为回答输出
+- **修复**: loop.py中检测到响应以`[Runtime Context`开头时，直接跳过前4行(固定格式)，从第5行开始提取实际内容
+- **验证**: 用户看到的是飞书引用旧消息导致，非nanobot新回复
+
 ## 持仓数据 (2026-03-12)
 - **位置**: `~/.nanobot/workspace/skills/astock-analysis/scripts/data/portfolio.json`
 - **格式**: JSON，以股票代码为key，包含stock_code、stock_name、quantity、cost_price、entry_date、last_update
 
 ## ClawHub Skills Analysis
+
+### 必装技能 (OpenClaw + Obsidian 配合)
+| 技能 | 用途 | 安装命令 |
+|------|------|----------|
+| **obsidian** | 让 OpenClaw 写入 Obsidian | `npx clawhub@latest install obsidian` |
+| **x-reader** | 联网搜索和链接解析（小红书、B站、X） | 手动安装 |
+| **agent-reach** | 联网搜索 + 13+平台内容抓取 | 手动安装 |
+| **find-skills** | 主动找 Skill 解决问题 | `npx clawhub@latest install find-skills` |
+| **proactive-agent** | 自我迭代的主动 Agent | `npx clawhub install proactive-agent-1-2-4` |
+
+### x-reader 技能详解 (2026-03-12 新增)
+- **GitHub**: https://github.com/runesleo/x-reader
+- **定位**: 通用内容读取器，从7+平台抓取内容并结构化输出
+- **支持平台**:
+  | 平台 | 文本获取 | 视频/音频转录 |
+  |------|---------|--------------|
+  | YouTube | ✅ Jina | ✅ yt-dlp + Whisper |
+  | Bilibili | ✅ API | ✅ Claude Code skill |
+  | X/Twitter | ✅ Jina → Playwright | — |
+  | 微信公众号 | ✅ Jina → Playwright | — |
+  | 小红书 | ✅ Jina → Playwright | — |
+  | Telegram | ✅ API | — |
+  | RSS | ✅ feedparser | — |
+  | 小宇宙/Apple Podcasts | — | ✅ Claude Code skill |
+- **安装**:
+  ```bash
+  pip install "x-reader[all] @ git+https://github.com/runesleo/x-reader.git"
+  playwright install chromium
+  brew install yt-dlp ffmpeg  # macOS
+  ```
+- **核心功能**: 自动平台检测、统一Markdown输出、视频转录+AI总结、Obsidian集成
+
+### x-reader vs agent-reach 核心区别 (2026-03-12 新增)
+| 维度 | x-reader | agent-reach |
+|------|----------|-------------|
+| **定位** | 内容读取器（Read） | 平台工具箱（搜索+读取+交互） |
+| **核心能力** | 抓取URL内容并结构化 | 13+平台的搜索/读取/发布 |
+| **视频处理** | ✅ 强（Whisper转录+AI总结） | ❌ 弱 |
+| **微信/小红书** | ✅ 强（Playwright绕过反爬） | ✅ 有miku_ai+mcporter |
+| **写作能力** | ❌ 无 | ✅ 可发推文/评论/发小红书 |
+| **安装复杂度** | 较复杂（依赖多） | 较简单 |
+
+**使用建议**:
+- 只做内容抓取/总结 → x-reader
+- 需要搜索+抓取+发布 → agent-reach
+- 视频需要完整字幕 → x-reader
+- 公众号/小红书搜索 → agent-reach
 
 ### Successfully Installed & Then Deleted
 - **asset-allocation** (codeblackhole1024) - CFA framework-based investment advisory. Features: risk assessment
@@ -33,6 +89,12 @@ This file stores important information that should persist across sessions.
 
 ### 技能安装位置
 - obsidian-topic-cubox-summary 实际安装在 ~/.agents/skills/
+
+## 核心配置文件（4个文件）
+1. **SOUL_OBSIDIAN.md** — 安全规则（禁止 rm/mv 命令、强制元数据注入）
+2. **USER_OBSIDIAN.md** — 写作风格（语言、标题公式、结构要求）
+3. **SOP_GZH.md** — 内容生产流程（灵感捕获→选题→大纲→初稿→归档）
+4. **AGENTS.md** — 启动必读文件
 
 ## 定时任务 (2026-03-12 更新)
 
@@ -183,20 +245,14 @@ This file stores important information that should persist across sessions.
 - 实时监控（monitor-once）只在交易时段(9:45-11:30, 13:00-15:00)运行有意义
 - 非交易时段执行会因无实时数据+LLM调用而超时卡住
 
-## nanobot代码修复 (2026-03-12 16:30)
+## 2026-03-13 问题记录
 
-### Runtime Context显示bug
-- **文件**: `/Users/tlin/Dropbox/mytools/nanobot/nanobot/agent/loop.py`
-- **问题**: LLM返回的Runtime Context没有被正确strip，原代码使用`split("\n", 3)`然后检查`len(lines) >= 3`，但当只有2行时永远不满足条件
-- **修复**: 改为动态检测内容起始位置，跳过所有元数据行
-- **提交**: 已提交到git - "fix: strip Runtime Context from LLM response - handle 2-line case"
-
-### 重启nanobot服务
-- 用户16:34要求重启，已执行pkill + nohup启动
-- 下次cron任务执行时Runtime Context不会再显示
-
-### 午盘分析测试无结果原因
-- 16:26执行的任务是 `--stocks`（分析模式）
-- 16:26已收盘（A股交易时间 9:30-11:30, 13:00-15:00）
-- 脚本检测到非交易时间，返回 "无告警，静默执行"
-- 14:30触发的午盘分析报告已成功生成
+### 子任务结果丢失问题
+- **现象**: 早盘分析任务(9:30)执行后，子任务状态显示completed，但输出结果未被正确捕获/返回给用户
+- **影响**: 用户在09:43追问分析结果时，发现子任务完成但无输出
+- **尝试解决**: 再次spawn新子agent尝试获取结果
+- **可能原因**: 
+  1. 脚本执行完成但stdout未被收集
+  2. 执行过程中出现异常未正确记录
+  3. subagent结果回传机制有问题
+- **状态**: 调查中

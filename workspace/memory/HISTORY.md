@@ -111,3 +111,19 @@
 
 [2026-03-12 16:30] 定时任务查询+Runtime Context bug修复。用户查询当前定时任务(5个)，确认午盘分析测试(16:26)无结果是因为非交易时间执行已收盘(13:00-15:00)，脚本静默退出。Runtime Context修复已提交代码，需重启nanobot服务生效。
 
+[2026-03-12 16:41-17:47] Runtime Context bug修复: 第一次修复依赖空行检测失效，改进为直接跳过前4行。需要重启nanobot生效。后发现有两个进程(23900旧/anaconda, 33726新/.venv)，用户手动kill旧进程后只剩一个。
+[2026-03-12 17:47] 尝试安装obsidian技能(clawhub): 遇到rate limit无法安装。
+[2026-03-12 17:53] 用户要求用agent-reach搜索微信公众号找OpenClaw+Obsidian配合最好的技能。
+[2026-03-12 17:58] 用户提醒: 搜索应优先使用agent-reach技能(之前已说过)。更新到memory。
+[2026-03-12 18:05-18:10] 用agent-reach搜索微信公众号，找到3篇推荐文章，阅读后总结: 必装obsidian、x-reader、agent-reach、find-skills、proactive-agent五个技能。核心配置4个文件(SOUL_OBSIDIAN.md, USER_OBSIDIAN.md, SOP_GZH.md, AGENTS.md)。
+
+
+[2026-03-12 17:43] nanobot进程确认: 仅剩PID 33726运行中(.venv)。
+[2026-03-12 17:36] 用户解释Runtime Context现象: 是飞书引用消息导致的，不是nanobot新回复，忽略此问题。
+
+[2026-03-12 18:11] 用户询问x-reader技能详情，获取GitHub信息后详细说明；18:15进一步询问x-reader与agent-reach的核心区别，整理对比表说明两者定位不同（x-reader=读取专家+视频转录强，agent-reach=全能工具箱+搜索发布能力）
+
+[2026-03-13 09:36] 早盘分析子任务(astock-analysis-morning)完成但无输出。用户在09:43追问分析结果，发现子任务执行了但结果未捕获。再次spawn新子agent尝试获取结果。
+
+[2026-03-13 09:43] 发现子任务结果丢失问题：subagent完成但输出未被正确捕获/返回给用户。可能是脚本执行完成但stdout未被收集，或执行过程中出现异常未记录。
+

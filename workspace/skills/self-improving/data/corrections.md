@@ -13,3 +13,9 @@
   Type: communication
   Context: AGENTS.md Gateway Heartbeat Protocol
   Confirmed: yes
+
+## 2026-03-13
+- [22:13] 问题：subagent 执行完成但回复丢失，输出未返回给用户
+  Type: technical
+  Context: nanobot subagent 机制
+  Confirmed: pending (1/3)
