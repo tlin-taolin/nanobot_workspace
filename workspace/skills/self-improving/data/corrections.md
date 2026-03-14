@@ -18,4 +18,4 @@
 - [22:13] 问题：subagent 执行完成但回复丢失，输出未返回给用户
   Type: technical
   Context: nanobot subagent 机制
-  Confirmed: pending (1/3)
+  Confirmed: pending (2/3)
